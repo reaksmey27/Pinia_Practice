@@ -1,17 +1,19 @@
 <template>
   <div class="card">
     <h2>Exercise 2: User Profile</h2>
-    
+
+    <!-- display -->
     <div class="info-block">
       <p><strong>Name:</strong> {{ name }}</p>
       <p><strong>Age:</strong> {{ age }}</p>
       <p><strong>Email:</strong> {{ email }}</p>
     </div>
 
+    <!-- edit form -->
     <div class="form">
-      <input v-model="name" placeholder="Change Name" />
-      <input v-model.number="age" type="number" placeholder="Change Age" />
-      <input v-model="email" placeholder="Change Email" />
+      <input v-model="name"        placeholder="Change Name" />
+      <input v-model.number="age"  placeholder="Change Age" type="number" />
+      <input v-model="email"       placeholder="Change Email" />
     </div>
   </div>
 </template>
@@ -20,7 +22,10 @@
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../stores/user'
 
+// store
 const store = useUserStore()
+
+// state (reactive — v-model binds directly)
 const { name, age, email } = storeToRefs(store)
 </script>
 
@@ -97,5 +102,4 @@ input::placeholder {
   color: var(--text-muted);
   opacity: 0.6;
 }
-
 </style>

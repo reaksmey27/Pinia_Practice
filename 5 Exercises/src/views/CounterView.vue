@@ -1,16 +1,18 @@
 <template>
   <div class="card">
     <h2>Exercise 1: Counter</h2>
-    
+
+    <!-- display -->
     <div class="info-block">
       <p>Current Count: <span class="badge">{{ count }}</span></p>
       <p>Double Count: <span class="badge">{{ doubleCount }}</span></p>
     </div>
 
+    <!-- actions -->
     <div class="btn-group">
       <button @click="increment" class="btn-action">+</button>
       <button @click="decrement" class="btn-action">-</button>
-      <button @click="reset" class="btn-danger">Reset</button>
+      <button @click="reset"     class="btn-danger">Reset</button>
     </div>
   </div>
 </template>
@@ -19,10 +21,14 @@
 import { storeToRefs } from 'pinia'
 import { useCounterStore } from '../stores/counter'
 
+// store
 const store = useCounterStore()
-const { count, doubleCount } = storeToRefs(store)
-const { increment, decrement, reset } = store
 
+// state & getters (reactive)
+const { count, doubleCount } = storeToRefs(store)
+
+// actions
+const { increment, decrement, reset } = store
 </script>
 
 <style scoped>
@@ -99,7 +105,6 @@ button:active {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* Danger Button */
 .btn-danger {
   background-color: #ffeeee;
   border-color: #ffcccc;

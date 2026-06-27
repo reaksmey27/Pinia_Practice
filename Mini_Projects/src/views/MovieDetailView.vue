@@ -1,5 +1,8 @@
 <template>
+  <!-- movie detail -->
   <div v-if="movie" class="max-w-3xl mx-auto px-4 py-8">
+
+    <!-- back button -->
     <button
       class="flex items-center gap-2 text-zinc-400 hover:text-white text-sm mb-6 transition-colors"
       @click="router.back()"
@@ -7,7 +10,10 @@
       ← Back
     </button>
 
+    <!-- poster + info -->
     <div class="flex flex-col sm:flex-row gap-6">
+
+      <!-- poster -->
       <div class="shrink-0 w-48 mx-auto sm:mx-0">
         <img
           :src="movie.poster"
@@ -16,7 +22,10 @@
         />
       </div>
 
+      <!-- info -->
       <div class="flex-1 space-y-4">
+
+        <!-- title, rating, year, genre -->
         <div>
           <h1 class="text-white text-3xl font-bold">{{ movie.title }}</h1>
           <div class="flex flex-wrap items-center gap-3 mt-2">
@@ -28,8 +37,10 @@
           </div>
         </div>
 
+        <!-- description -->
         <p class="text-zinc-300 leading-relaxed">{{ movie.description }}</p>
 
+        <!-- watchlist button -->
         <button
           class="px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200"
           :class="inWatchlist
@@ -43,6 +54,7 @@
       </div>
     </div>
 
+    <!-- related movies -->
     <div v-if="relatedMovies.length" class="mt-12">
       <h2 class="text-white text-lg font-bold mb-4">More {{ movie.genre }}</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -54,8 +66,10 @@
         />
       </div>
     </div>
+
   </div>
 
+  <!-- not found -->
   <div v-else class="flex flex-col items-center justify-center py-24 text-center">
     <span class="text-5xl mb-4">🎬</span>
     <h3 class="text-white text-lg font-semibold">Movie not found</h3>
@@ -72,24 +86,29 @@ import { useMovieStore }     from '@/stores/movieStore'
 import { useWatchlistStore } from '@/stores/watchlistStore'
 import MovieCard             from '@/components/MovieCard.vue'
 
+// routing
 const route  = useRoute()
 const router = useRouter()
 
+// stores
 const movieStore = useMovieStore()
 const watchlist  = useWatchlistStore()
 
+// find movie by route param id
 const movie = computed(() =>
-  movieStore.movies.find((m) => m.id === Number(route.params.id))
+  movieStore.movies.find(m => m.id === Number(route.params.id))
 )
 
+// check if movie is in watchlist
 const inWatchlist = computed(() =>
   movie.value ? watchlist.isInWatchlist(movie.value.id) : false
 )
 
+// related movies — same genre, exclude current
 const relatedMovies = computed(() =>
   movie.value
     ? movieStore.movies
-        .filter((m) => m.genre === movie.value.genre && m.id !== movie.value.id)
+        .filter(m => m.genre === movie.value.genre && m.id !== movie.value.id)
         .slice(0, 4)
     : []
 )

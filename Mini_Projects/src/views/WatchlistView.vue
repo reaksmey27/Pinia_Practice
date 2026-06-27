@@ -1,5 +1,7 @@
 <template>
   <div class="space-y-6">
+
+    <!-- header -->
     <div class="flex items-center justify-between">
       <div>
         <h2 class="text-white text-xl font-bold">My Watchlist</h2>
@@ -8,6 +10,7 @@
         </p>
       </div>
 
+      <!-- clear all button -->
       <button
         v-if="watchlist.watchlistCount"
         class="text-sm text-zinc-400 hover:text-red-400 transition-colors"
@@ -17,6 +20,7 @@
       </button>
     </div>
 
+    <!-- movie grid -->
     <div
       v-if="watchlistMovies.length"
       class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
@@ -28,6 +32,7 @@
       />
     </div>
 
+    <!-- empty state -->
     <div v-else class="flex flex-col items-center justify-center py-24 text-center">
       <span class="text-5xl mb-4">☆</span>
       <h3 class="text-white text-lg font-semibold">Your watchlist is empty</h3>
@@ -39,6 +44,7 @@
         Browse Catalog
       </RouterLink>
     </div>
+
   </div>
 </template>
 
@@ -48,10 +54,12 @@ import { useWatchlistStore } from '@/stores/watchlistStore'
 import { useMovieStore }     from '@/stores/movieStore'
 import MovieCard             from '@/components/MovieCard.vue'
 
+// stores
 const watchlist  = useWatchlistStore()
 const movieStore = useMovieStore()
 
+// filter movies that are in the watchlist
 const watchlistMovies = computed(() =>
-  movieStore.movies.filter((m) => watchlist.watchlistIds.includes(m.id))
+  movieStore.movies.filter(m => watchlist.watchlistIds.includes(m.id))
 )
 </script>

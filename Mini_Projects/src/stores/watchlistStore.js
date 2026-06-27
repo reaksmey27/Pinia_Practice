@@ -2,11 +2,14 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const useWatchlistStore = defineStore('watchlist', () => {
+  // state
   const watchlistIds = ref([])
 
+  // getters
   const watchlistCount = computed(() => watchlistIds.value.length)
   const isInWatchlist  = computed(() => (id) => watchlistIds.value.includes(id))
 
+  // actions
   function addToWatchlist(movieId) {
     if (!isInWatchlist.value(movieId)) watchlistIds.value.push(movieId)
   }
@@ -16,10 +19,15 @@ export const useWatchlistStore = defineStore('watchlist', () => {
   }
 
   function toggleWatchlist(movieId) {
-    isInWatchlist.value(movieId) ? removeFromWatchlist(movieId) : addToWatchlist(movieId)
+    isInWatchlist.value(movieId)
+      ? removeFromWatchlist(movieId)
+      : addToWatchlist(movieId)
   }
 
   function clearWatchlist() { watchlistIds.value = [] }
 
-  return { watchlistIds, watchlistCount, isInWatchlist, addToWatchlist, removeFromWatchlist, toggleWatchlist, clearWatchlist }
+  return {
+    watchlistIds, watchlistCount, isInWatchlist,
+    addToWatchlist, removeFromWatchlist, toggleWatchlist, clearWatchlist,
+  }
 })

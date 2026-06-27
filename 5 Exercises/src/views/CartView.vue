@@ -1,25 +1,34 @@
 <template>
   <div class="card">
     <h2>Exercise 4: Shopping Cart</h2>
-    
+
+    <!-- products list -->
     <h3>Products</h3>
     <ul class="items-list">
       <li v-for="product in products" :key="product.id">
-        <span class="item-info">{{ product.name }} <span class="price-tag">${{ product.price }}</span></span>
+        <span class="item-info">
+          {{ product.name }}
+          <span class="price-tag">${{ product.price }}</span>
+        </span>
         <button @click="addToCart(product)" class="btn-action">Add to Cart</button>
       </li>
     </ul>
 
+    <!-- cart -->
     <h3>Your Basket</h3>
     <p v-if="cart.length === 0" class="empty-msg">Your shopping basket is empty.</p>
-    
+
     <ul class="items-list" v-else>
       <li v-for="item in cart" :key="item.product.id">
-        <span class="item-info">{{ item.product.name }} <span class="qty-tag">x{{ item.quantity }}</span></span>
+        <span class="item-info">
+          {{ item.product.name }}
+          <span class="qty-tag">x{{ item.quantity }}</span>
+        </span>
         <button @click="removeFromCart(item.product.id)" class="del-btn">Remove</button>
       </li>
     </ul>
 
+    <!-- totals -->
     <div class="cart-totals" v-if="cart.length > 0">
       <p>Total Items: <span>{{ totalItems }}</span></p>
       <p>Total Cost: <span class="total-price">${{ totalPrice }}</span></p>
@@ -32,8 +41,13 @@
 import { storeToRefs } from 'pinia'
 import { useCartStore } from '../stores/cart'
 
+// store
 const store = useCartStore()
+
+// state & getters (reactive)
 const { products, cart, totalItems, totalPrice } = storeToRefs(store)
+
+// actions
 const { addToCart, removeFromCart, clearCart } = store
 </script>
 
@@ -86,7 +100,8 @@ h3 {
   color: var(--text-main);
 }
 
-.price-tag, .qty-tag {
+.price-tag,
+.qty-tag {
   color: var(--text-muted);
   font-size: 0.85rem;
   margin-left: 4px;
@@ -113,7 +128,8 @@ h3 {
   color: var(--text-muted);
 }
 
-.cart-totals strong, .total-price {
+.cart-totals strong,
+.total-price {
   color: var(--text-main);
   font-weight: 600;
 }

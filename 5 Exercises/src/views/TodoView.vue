@@ -1,18 +1,25 @@
 <template>
   <div class="card">
     <h2>Exercise 3: Todo Application</h2>
-    
+
+    <!-- metrics -->
     <div class="metrics">
       <span>Total: <strong>{{ totalTodos }}</strong></span>
       <span>Pending: <strong>{{ pendingTodos.length }}</strong></span>
       <span>Completed: <strong>{{ completedTodos.length }}</strong></span>
     </div>
 
+    <!-- add todo -->
     <div class="input-row">
-      <input v-model="todoText" placeholder="What needs to be done?" @keyup.enter="saveTodo" />
+      <input
+        v-model="todoText"
+        placeholder="What needs to be done?"
+        @keyup.enter="saveTodo"
+      />
       <button @click="saveTodo" class="btn-action">Add</button>
     </div>
 
+    <!-- todo list -->
     <ul class="items-list">
       <li v-for="todo in todos" :key="todo.id" :class="{ done: todo.completed }">
         <span @click="toggleTodo(todo.id)" class="todo-text">{{ todo.title }}</span>
@@ -27,15 +34,21 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTodoStore } from '../stores/todo'
 
+// store
 const store = useTodoStore()
 
+// state & getters (reactive)
 const { todos, totalTodos, pendingTodos, completedTodos } = storeToRefs(store)
+
+// actions
 const { addTodo, toggleTodo, deleteTodo } = store
 
+// local state
 const todoText = ref('')
 
+// add todo and clear input
 function saveTodo() {
-  if (!todoText.value.trim()) return 
+  if (!todoText.value.trim()) return
   addTodo(todoText.value)
   todoText.value = ''
 }
@@ -132,7 +145,6 @@ button:active {
   align-items: center;
   padding: 10px 4px;
   border-bottom: 1px solid var(--border-color);
-  opacity: 1;
   transition: opacity 0.2s;
 }
 

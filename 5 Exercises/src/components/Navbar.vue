@@ -1,11 +1,14 @@
 <template>
   <header class="app-header">
     <div class="header-container">
+
+      <!-- brand -->
       <div class="brand">
         <span class="logo-icon">⚡</span>
         <h1>CoreSuite</h1>
       </div>
-      
+
+      <!-- navigation -->
       <nav class="navigation">
         <router-link to="/">Home</router-link>
         <router-link to="/counter">Counter</router-link>
@@ -14,9 +17,15 @@
         <router-link to="/cart">Cart</router-link>
       </nav>
 
-      <button @click="toggleTheme" class="theme-btn" :aria-label="'Switch to ' + (darkMode ? 'light' : 'dark') + ' mode'">
+      <!-- theme toggle -->
+      <button
+        @click="toggleTheme"
+        class="theme-btn"
+        :aria-label="'Switch to ' + (darkMode ? 'light' : 'dark') + ' mode'"
+      >
         <span class="theme-icon">{{ darkMode ? '🌙' : '☀️' }}</span>
       </button>
+
     </div>
   </header>
 </template>
@@ -25,10 +34,14 @@
 import { storeToRefs } from 'pinia'
 import { useThemeStore } from '../stores/theme'
 
+// store
 const themeStore = useThemeStore()
-const { darkMode } = storeToRefs(themeStore)
-const { toggleTheme } = themeStore
 
+// state (reactive)
+const { darkMode } = storeToRefs(themeStore)
+
+// actions
+const { toggleTheme } = themeStore
 </script>
 
 <style scoped>
@@ -133,9 +146,9 @@ const { toggleTheme } = themeStore
     height: auto;
     padding: 12px 0;
     flex-direction: column;
-    gap: 12px;
+    gap: 12x;
   }
-  
+
   .navigation {
     width: 100%;
     justify-content: center;

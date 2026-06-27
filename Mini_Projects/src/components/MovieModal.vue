@@ -6,12 +6,15 @@
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
         @click.self="ui.closeModal()"
       >
+        <!-- backdrop -->
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="ui.closeModal()" />
 
+        <!-- modal -->
         <div
           v-if="ui.selectedMovie"
           class="relative z-10 bg-zinc-900 rounded-2xl overflow-hidden max-w-lg w-full shadow-2xl"
         >
+          <!-- poster -->
           <div class="relative h-64 overflow-hidden">
             <img
               :src="ui.selectedMovie.poster"
@@ -20,6 +23,7 @@
             />
             <div class="absolute inset-0 bg-linear-to-t from-zinc-900 via-zinc-900/40 to-transparent" />
 
+            <!-- close button -->
             <button
               class="absolute top-3 right-3 w-8 h-8 bg-black/60 hover:bg-black text-white rounded-full flex items-center justify-center transition-colors text-sm"
               @click="ui.closeModal()"
@@ -27,6 +31,7 @@
               ✕
             </button>
 
+            <!-- title, rating, year, genre -->
             <div class="absolute bottom-4 left-4 right-4">
               <h2 class="text-white text-2xl font-bold">{{ ui.selectedMovie.title }}</h2>
               <div class="flex items-center gap-3 mt-1">
@@ -37,6 +42,7 @@
             </div>
           </div>
 
+          <!-- description + watchlist button -->
           <div class="p-5">
             <p class="text-zinc-300 text-sm leading-relaxed">{{ ui.selectedMovie.description }}</p>
 
@@ -62,9 +68,11 @@ import { computed } from 'vue'
 import { useUIStore }        from '@/stores/uiStore'
 import { useWatchlistStore } from '@/stores/watchlistStore'
 
+// stores
 const ui        = useUIStore()
 const watchlist = useWatchlistStore()
 
+// check if selected movie is in watchlist
 const inWatchlist = computed(() =>
   ui.selectedMovie ? watchlist.isInWatchlist(ui.selectedMovie.id) : false
 )
@@ -75,6 +83,7 @@ const inWatchlist = computed(() =>
 .fade-leave-active {
   transition: opacity 0.2s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

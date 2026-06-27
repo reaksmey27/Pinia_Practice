@@ -1,6 +1,10 @@
 <template>
   <div class="space-y-4">
+
+    <!-- search, sort, reset -->
     <div class="flex gap-3">
+
+      <!-- search input -->
       <div class="relative flex-1">
         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">🔍</span>
         <input
@@ -12,6 +16,7 @@
         />
       </div>
 
+      <!-- sort select -->
       <select
         :value="movieStore.sortBy"
         class="bg-zinc-800 text-white text-sm rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
@@ -22,6 +27,7 @@
         <option value="title">A–Z</option>
       </select>
 
+      <!-- reset filters button -->
       <button
         v-if="hasActiveFilters"
         class="bg-zinc-700 hover:bg-zinc-600 text-white text-sm rounded-xl px-3 py-2.5 transition-colors"
@@ -32,6 +38,7 @@
       </button>
     </div>
 
+    <!-- genre filter -->
     <div class="flex flex-wrap gap-2">
       <button
         v-for="genre in movieStore.allGenres"
@@ -46,6 +53,7 @@
         {{ genre }}
       </button>
     </div>
+
   </div>
 </template>
 
@@ -53,11 +61,13 @@
 import { computed } from 'vue'
 import { useMovieStore } from '@/stores/movieStore'
 
+// store
 const movieStore = useMovieStore()
 
+// true if any filter is active
 const hasActiveFilters = computed(() =>
   movieStore.searchQuery !== '' ||
   movieStore.activeGenre !== 'All' ||
-  movieStore.sortBy !== 'rating'
+  movieStore.sortBy      !== 'rating'
 )
 </script>
