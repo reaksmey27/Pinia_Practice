@@ -21,7 +21,7 @@ A collection of 5 Pinia store exercises built with **Vue 3**, **Pinia**, and **V
 ### Shopping Cart
 ![Shopping Cart](./src/assets/screenshots/cart.png)
 
-### Shopping Cart
+### Dark Mode
 ![Dark Mode](./src/assets/screenshots/dark.png)
 
 ---
