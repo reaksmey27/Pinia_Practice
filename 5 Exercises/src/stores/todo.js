@@ -8,9 +8,25 @@ export const useTodoStore = defineStore('todo', () => {
   ])
 
   // getters
-  const completedTodos = computed(() => todos.value.filter(t => t.completed))
-  const pendingTodos   = computed(() => todos.value.filter(t => !t.completed))
-  const totalTodos     = computed(() => todos.value.length)
+  const completedTodos = computed(() => {
+    const result = []
+    for (const todo of todos.value) {
+      if (todo.completed)
+        result.push(todo)
+    }
+    return result
+  })
+
+  const pendingTodos = computed(() => {
+    const result = []
+    for (const todo of todos.value) {
+      if (!todo.completed)
+        result.push(todo)
+    }
+    return result
+  })
+
+  const totalTodos = computed(() => todos.value.length)
 
   // actions
   function addTodo(title) {
@@ -19,12 +35,21 @@ export const useTodoStore = defineStore('todo', () => {
   }
 
   function deleteTodo(id) {
-    todos.value = todos.value.filter(t => t.id !== id)
+    for (let i = 0; i < todos.value.length; i++) {
+      if (todos.value[i].id === id) {
+        todos.value.splice(i, 1)
+        return
+      }
+    }
   }
 
   function toggleTodo(id) {
-    const todo = todos.value.find(t => t.id === id)
-    if (todo) todo.completed = !todo.completed
+    for (const todo of todos.value) {
+      if (todo.id === id) {
+        todo.completed = !todo.completed
+        return
+      }
+    }
   }
 
   return { todos, completedTodos, pendingTodos, totalTodos, addTodo, deleteTodo, toggleTodo }

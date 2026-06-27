@@ -1,14 +1,9 @@
 <template>
   <div :class="['app-frame', { 'dark-mode': darkMode }]">
-
-    <!-- navbar -->
     <Navbar />
-
-    <!-- page content -->
     <main class="content-window">
       <router-view />
     </main>
-
   </div>
 </template>
 
@@ -17,15 +12,12 @@ import { storeToRefs } from 'pinia'
 import { useThemeStore } from './stores/theme'
 import Navbar from './components/Navbar.vue'
 
-// store
 const themeStore = useThemeStore()
-
-// state (reactive)
 const { darkMode } = storeToRefs(themeStore)
+
 </script>
 
 <style>
-/* light mode tokens */
 :root {
   --bg-primary:   #fcfcfc;
   --bg-surface:   #ffffff;
@@ -36,7 +28,6 @@ const { darkMode } = storeToRefs(themeStore)
   --nav-hover:    #666666;
 }
 
-/* dark mode tokens */
 .dark-mode {
   --bg-primary:   #121212;
   --bg-surface:   #1e1e1e;
@@ -47,13 +38,11 @@ const { darkMode } = storeToRefs(themeStore)
   --nav-hover:    #cccccc;
 }
 
-/* reset */
 body {
   margin: 0;
   padding: 0;
 }
 
-/* app shell */
 .app-frame {
   font-family: sans-serif;
   background-color: var(--bg-primary);
@@ -62,14 +51,12 @@ body {
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* main content area */
 .content-window {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* global card style */
 .app-frame .card {
   background-color: var(--bg-surface);
   border-color: var(--border-color);

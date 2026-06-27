@@ -24,35 +24,71 @@ export const useMovieStore = defineStore('movies', () => {
   const sortBy      = ref('rating')
 
   // getters
-  const allGenres = computed(() => ['All', ...new Set(movies.value.map(m => m.genre))])
+  const allGenres = computed(() => {
+    const genres = ['All']
+    for (const movie of movies.value) {
+      let found = false
+      for (const genre of genres) {
+        if (genre === movie.genre) found = true
+      }
+      if (!found) genres.push(movie.genre)
+    }
+    return genres
+  })
 
   const filteredMovies = computed(() => {
-    let result = movies.value
+    const result = []
 
-    if (activeGenre.value !== 'All')
-      result = result.filter(m => m.genre === activeGenre.value)
+    for (const movie of movies.value) {
+      let matchGenre = false
+      
+      if (activeGenre.value === 'All') 
+        matchGenre = true
 
-    if (searchQuery.value.trim()) {
-      const q = searchQuery.value.toLowerCase()
-      result = result.filter(m =>
-        m.title.toLowerCase().includes(q) ||
-        m.genre.toLowerCase().includes(q)
-      )
+      if (movie.genre === activeGenre.value) 
+        matchGenre = true
+
+      let matchSearch = true
+      if (searchQuery.value !== '') {
+        const q = searchQuery.value.toLowerCase()
+        const inTitle = movie.title.toLowerCase().includes(q)
+        const inGenre = movie.genre.toLowerCase().includes(q)
+
+        if (inTitle || inGenre) 
+          matchSearch = true
+        else 
+          matchSearch = false
+      }
+
+      if (matchGenre && matchSearch) 
+        result.push(movie)
     }
 
-    return [...result].sort((a, b) => {
-      if (sortBy.value === 'title') return a.title.localeCompare(b.title)
-      if (sortBy.value === 'year')  return b.year - a.year
+    result.sort((a, b) => {
+      if (sortBy.value === 'title') 
+        return a.title.localeCompare(b.title)
+
+      if (sortBy.value === 'year')  
+        return b.year - a.year
+
       return b.rating - a.rating
     })
+
+    return result
   })
 
   const totalMovies = computed(() => movies.value.length)
 
   // actions
-  function setSearch(query) { searchQuery.value = query }
-  function setGenre(genre)  { activeGenre.value = genre }
-  function setSortBy(field) { sortBy.value      = field }
+  function setSearch(query) { 
+    searchQuery.value = query 
+  }
+  function setGenre(genre)  { 
+    activeGenre.value = genre 
+  }
+  function setSortBy(field) { 
+    sortBy.value      = field 
+  }
 
   function resetFilters() {
     searchQuery.value = ''

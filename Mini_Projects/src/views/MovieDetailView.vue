@@ -1,8 +1,6 @@
 <template>
-  <!-- movie detail -->
   <div v-if="movie" class="max-w-3xl mx-auto px-4 py-8">
 
-    <!-- back button -->
     <button
       class="flex items-center gap-2 text-zinc-400 hover:text-white text-sm mb-6 transition-colors"
       @click="router.back()"
@@ -10,22 +8,12 @@
       ← Back
     </button>
 
-    <!-- poster + info -->
     <div class="flex flex-col sm:flex-row gap-6">
-
-      <!-- poster -->
       <div class="shrink-0 w-48 mx-auto sm:mx-0">
-        <img
-          :src="movie.poster"
-          :alt="movie.title"
-          class="w-full rounded-xl shadow-2xl"
-        />
+        <img :src="movie.poster" :alt="movie.title" class="w-full rounded-xl shadow-2xl" />
       </div>
 
-      <!-- info -->
       <div class="flex-1 space-y-4">
-
-        <!-- title, rating, year, genre -->
         <div>
           <h1 class="text-white text-3xl font-bold">{{ movie.title }}</h1>
           <div class="flex flex-wrap items-center gap-3 mt-2">
@@ -37,10 +25,8 @@
           </div>
         </div>
 
-        <!-- description -->
         <p class="text-zinc-300 leading-relaxed">{{ movie.description }}</p>
 
-        <!-- watchlist button -->
         <button
           class="px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200"
           :class="inWatchlist
@@ -54,28 +40,19 @@
       </div>
     </div>
 
-    <!-- related movies -->
     <div v-if="relatedMovies.length" class="mt-12">
       <h2 class="text-white text-lg font-bold mb-4">More {{ movie.genre }}</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        <MovieCard
-          v-for="m in relatedMovies"
-          :key="m.id"
-          :movie="m"
-          :use-link="true"
-        />
+        <MovieCard v-for="m in relatedMovies" :key="m.id" :movie="m" :use-link="true" />
       </div>
     </div>
 
   </div>
 
-  <!-- not found -->
   <div v-else class="flex flex-col items-center justify-center py-24 text-center">
     <span class="text-5xl mb-4">🎬</span>
     <h3 class="text-white text-lg font-semibold">Movie not found</h3>
-    <RouterLink class="mt-4 text-amber-400 hover:underline text-sm" to="/">
-      Go to Catalog
-    </RouterLink>
+    <RouterLink class="mt-4 text-amber-400 hover:underline text-sm" to="/">Go to Catalog</RouterLink>
   </div>
 </template>
 
@@ -86,30 +63,39 @@ import { useMovieStore }     from '@/stores/movieStore'
 import { useWatchlistStore } from '@/stores/watchlistStore'
 import MovieCard             from '@/components/MovieCard.vue'
 
-// routing
 const route  = useRoute()
 const router = useRouter()
 
-// stores
 const movieStore = useMovieStore()
 const watchlist  = useWatchlistStore()
 
-// find movie by route param id
-const movie = computed(() =>
-  movieStore.movies.find(m => m.id === Number(route.params.id))
-)
+const movie = computed(() => {
+  for (const m of movieStore.movies) {
+    if (m.id === Number(route.params.id)) 
+    return m
+  }
+  return null
+})
 
-// check if movie is in watchlist
-const inWatchlist = computed(() =>
-  movie.value ? watchlist.isInWatchlist(movie.value.id) : false
-)
+const inWatchlist = computed(() => {
+  if (movie.value) 
+  return watchlist.isInWatchlist(movie.value.id)
 
-// related movies — same genre, exclude current
-const relatedMovies = computed(() =>
-  movie.value
-    ? movieStore.movies
-        .filter(m => m.genre === movie.value.genre && m.id !== movie.value.id)
-        .slice(0, 4)
-    : []
-)
+  return false
+})
+
+const relatedMovies = computed(() => {
+  if (!movie.value) 
+  return []
+
+  const result = []
+  for (const m of movieStore.movies) {
+    if (m.genre === movie.value.genre && m.id !== movie.value.id)
+      result.push(m)
+    
+    if (result.length === 4) 
+    return result
+  }
+  return result
+})
 </script>

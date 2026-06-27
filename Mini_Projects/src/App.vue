@@ -1,10 +1,6 @@
 <template>
   <div class="min-h-screen bg-zinc-950 text-white">
-
-    <!-- navbar -->
     <NavBar />
-
-    <!-- page content -->
     <main class="max-w-6xl mx-auto px-4 py-8">
       <RouterView v-slot="{ Component }">
         <Transition name="slide" mode="out-in">
@@ -12,10 +8,7 @@
         </Transition>
       </RouterView>
     </main>
-
-    <!-- movie modal -->
     <MovieModal />
-
   </div>
 </template>
 

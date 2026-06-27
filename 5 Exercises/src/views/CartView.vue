@@ -2,12 +2,11 @@
   <div class="card">
     <h2>Exercise 4: Shopping Cart</h2>
 
-    <!-- products list -->
+    <!-- products -->
     <h3>Products</h3>
     <ul class="items-list">
       <li v-for="product in products" :key="product.id">
-        <span class="item-info">
-          {{ product.name }}
+        <span class="item-info">{{ product.name }}
           <span class="price-tag">${{ product.price }}</span>
         </span>
         <button @click="addToCart(product)" class="btn-action">Add to Cart</button>
@@ -17,11 +16,9 @@
     <!-- cart -->
     <h3>Your Basket</h3>
     <p v-if="cart.length === 0" class="empty-msg">Your shopping basket is empty.</p>
-
-    <ul class="items-list" v-else>
+    <ul v-else class="items-list">
       <li v-for="item in cart" :key="item.product.id">
-        <span class="item-info">
-          {{ item.product.name }}
+        <span class="item-info">{{ item.product.name }}
           <span class="qty-tag">x{{ item.quantity }}</span>
         </span>
         <button @click="removeFromCart(item.product.id)" class="del-btn">Remove</button>
@@ -29,7 +26,7 @@
     </ul>
 
     <!-- totals -->
-    <div class="cart-totals" v-if="cart.length > 0">
+    <div v-if="cart.length > 0" class="cart-totals">
       <p>Total Items: <span>{{ totalItems }}</span></p>
       <p>Total Cost: <span class="total-price">${{ totalPrice }}</span></p>
       <button @click="clearCart" class="btn-danger block-btn">Clear Entire Cart</button>

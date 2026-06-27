@@ -19,14 +19,13 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../stores/user'
 
-// store
 const store = useUserStore()
-
-// state (reactive — v-model binds directly)
 const { name, age, email } = storeToRefs(store)
+
 </script>
 
 <style scoped>

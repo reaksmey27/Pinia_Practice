@@ -11,11 +11,7 @@
 
     <!-- add todo -->
     <div class="input-row">
-      <input
-        v-model="todoText"
-        placeholder="What needs to be done?"
-        @keyup.enter="saveTodo"
-      />
+      <input v-model="todoText" placeholder="What needs to be done?" @keyup.enter="saveTodo" />
       <button @click="saveTodo" class="btn-action">Add</button>
     </div>
 
@@ -23,7 +19,7 @@
     <ul class="items-list">
       <li v-for="todo in todos" :key="todo.id" :class="{ done: todo.completed }">
         <span @click="toggleTodo(todo.id)" class="todo-text">{{ todo.title }}</span>
-        <button @click="deleteTodo(todo.id)" class="del-btn" aria-label="Delete todo">✕</button>
+        <button @click="deleteTodo(todo.id)" class="del-btn">✕</button>
       </li>
     </ul>
   </div>
@@ -37,21 +33,17 @@ import { useTodoStore } from '../stores/todo'
 // store
 const store = useTodoStore()
 
-// state & getters (reactive)
 const { todos, totalTodos, pendingTodos, completedTodos } = storeToRefs(store)
-
-// actions
 const { addTodo, toggleTodo, deleteTodo } = store
 
-// local state
 const todoText = ref('')
 
-// add todo and clear input
 function saveTodo() {
-  if (!todoText.value.trim()) return
+  if (!todoText.value) return
   addTodo(todoText.value)
   todoText.value = ''
 }
+
 </script>
 
 <style scoped>

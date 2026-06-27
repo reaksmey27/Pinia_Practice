@@ -29,6 +29,7 @@ const { count, doubleCount } = storeToRefs(store)
 
 // actions
 const { increment, decrement, reset } = store
+
 </script>
 
 <style scoped>
